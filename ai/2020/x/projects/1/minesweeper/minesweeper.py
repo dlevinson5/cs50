@@ -195,6 +195,7 @@ class MinesweeperAI():
         for i in range(row1, row2 + 1, 1):
             for j in range(col1, col2 + 1, 1):
                 surrounding_cell = (i, j)
+                # only want surrounding cells that are not known as safe
                 if surrounding_cell != cell and surrounding_cell not in self.safes:
                     cells.add(surrounding_cell)
 
@@ -326,9 +327,9 @@ class MinesweeperAI():
             for cell1 in sentence.known_safes().copy():
                 self.mark_safe(cell1)
 
-        self.log_cells(surrounding_cells, f"MOVE {cell} {count}")
-        self.log_knowledge()
-        self.log_data()
+        # self.log_cells(surrounding_cells, f"MOVE {cell} {count}")
+        # self.log_knowledge()
+        # self.log_data()
 
     def make_safe_move(self):
         """
@@ -342,7 +343,7 @@ class MinesweeperAI():
 
         moves = self.safes - self.moves_made
         move = moves.pop() if len(moves) > 0 else None
-        print(f"SAFE MOVE = {move}")
+        # print(f"SAFE MOVE = {move}")
         return move
 
     def make_random_move(self):
@@ -355,15 +356,15 @@ class MinesweeperAI():
 
         # create a list of available cells that have not been chosen
         cells = set()
-        for y in range(0, self.height):
-            for x in range(0, self.width):
-                cell = (y, x)
+        for row in range(0, self.height):
+            for col in range(0, self.width):
+                cell = (row, col)
                 if cell not in self.moves_made and cell not in self.mines:
-                    cells.add((y, x))
+                    cells.add((row, col))
 
         if len(cells) == 0:
             return None
 
         move = cells.pop()
-        print(f"RANDOM MOVE = {move}")
+        # print(f"RANDOM MOVE = {move}")
         return move
